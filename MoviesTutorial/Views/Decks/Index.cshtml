@@ -1,0 +1,51 @@
+﻿@model IEnumerable<MoviesTutorial.Models.Deck>
+
+@{
+    ViewBag.Title = "Decks";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+<h2>List of Decks</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedOn)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DeckId)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedOn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeckId)
+            </td>
+        </tr>
+    }
+</table>
+
+<h2>Build a Deck</h2>
+
+@using (Ajax.BeginForm(new AjaxOptions { OnSuccess = "refreshWithResults", UpdateTargetId = "searchResults", InsertionMode = InsertionMode.Replace, Url = Url.Action("GetSearchResults", "Cards"), HttpMethod = "POST" })) {
+    <input type="text" name="searchTerm" />
+    <input type="submit" value="Search" />
+}
+<!--<input type="button" id="saveChangesButton" value="Save Deck" />-->
+@Html.Partial("~/Views/Cards/SearchResult.cshtml", new List<MoviesTutorial.Models.Card>())
+
+@Scripts.Render("~/Scripts/DeckBuilder.js")
