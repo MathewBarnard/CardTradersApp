@@ -1,0 +1,52 @@
+﻿@model MoviesTutorial.Models.Deck
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+<h2>Create</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Deck</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+@using (Ajax.BeginForm(new AjaxOptions { OnSuccess = "refreshWithResults", UpdateTargetId = "searchResults", InsertionMode = InsertionMode.Replace, Url = Url.Action("GetSearchResults", "Cards"), HttpMethod = "POST" })) {
+    <input type="text" name="searchTerm" class="form-control" />
+    <input type="submit" value="Search" class="btn btn-default" />
+}
+<div class="col-md-6">
+    <!--<input type="button" id="saveChangesButton" value="Save Deck" />-->
+    @Html.Partial("~/Views/Cards/SearchResult.cshtml", new List<MoviesTutorial.Models.Card>())
+</div>
+<div id="deckView" class="col-md-6">
+    <table class="table" id="deckTable"></table>
+</div>
+<div class="clearfix"></div>
+<div>
+    @Html.ActionLink("Back to your Decks", "Index")
+</div>
+@Scripts.Render("~/Scripts/DeckBuilder.js")

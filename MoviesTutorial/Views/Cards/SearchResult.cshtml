@@ -16,7 +16,7 @@
         </tr>
 
         @foreach (var item in Model) {
-            <tr>
+            <tr name="@item.Name" class="cardSearchRow">
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
@@ -28,7 +28,6 @@
                 </td>
                 <td>
                     <input type="button" class="addCardButton" name="@item.Name" value="+" />
-                    <input type="button" class="subtractCardButton" name="@item.Name" value="-" />
                 </td>
             </tr>
         }

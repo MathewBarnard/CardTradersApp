@@ -64,6 +64,11 @@ namespace MoviesTutorial.Controllers
             return new JsonResult();
         }
 
+        public ActionResult Create() {
+
+            return View();
+        }
+
         public ActionResult DeleteAll() {
 
             var decks = db.Decks.Include("Cards");
